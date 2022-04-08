@@ -1,0 +1,22 @@
+<h2>Контакты</h2>
+
+<form class="row g-3" action="/contacts" method="POST">
+  <div class="col-md-6 my-2">
+    <label for="email" class="form-label">Ваш email</label>
+    <input name="email" type="email" class="form-control" id="email" placeholder="Введите email">
+  </div>
+ 
+  <div class="col-md-6 my-2">
+    <label for="phone" class="form-label">Номер телефона</label>
+    <input name="phone" type="phone" class="form-control" id="phone" placeholder="Введите номер телефона">
+  </div>
+
+  <div class="col-md-6 my-2">
+    <label for="message" class="form-label">Сообщение</label>
+    <textarea name="message" type="text" class="form-control" id="message" placeholder="Введите ваше сообщение"></textarea>
+  </div>
+
+  <div class="col-12 my-2">
+    <button type="submit" class="btn btn-primary">Отправить</button>
+  </div>
+</form>

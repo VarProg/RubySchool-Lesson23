@@ -1,0 +1,31 @@
+<h2>Записаться</h2>
+
+<form class="row g-3" action="/visit" method="POST">
+  <div class="col-md-6 my-2">
+    <label for="user_name" class="form-label">Ваше имя</label>
+    <input name="user_name" type="text" class="form-control" id="user_name" placeholder="Введите имя">
+  </div>
+ 
+  <div class="col-md-6 my-2">
+    <label for="phone" class="form-label">Номер телефона</label>
+    <input name="phone" type="phone" class="form-control" id="phone" placeholder="Введите номер телефона">
+  </div>
+
+  <div class="col-md-6 my-2">
+    <label for="date_time" class="form-label">Когда вас ждать?</label>
+    <input name="date_time" type="text" class="form-control" id="date_time" placeholder="Введите дату и время">
+  </div>
+
+  <div class="col-md-6 my-2">
+    <select class="form-select" name="barber" aria-label="Default select example">
+      <option selected>Выберите парикмахера</option>
+      <option value="Walter White">Walter White</option>
+      <option value="Jassy Pinckman">Jassy Pinckman</option>
+      <option value="Gus Fuck">Gus Fuck</option>
+    </select>
+  </div>
+
+  <div class="col-12 my-2">
+    <button type="submit" class="btn btn-primary">Отправить</button>
+  </div>
+</form>
