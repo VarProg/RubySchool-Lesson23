@@ -25,6 +25,7 @@ get '/' do
 end
 
 get '/about' do
+  @error = 'Something wrong!'
   erb :about
 end
 
@@ -37,12 +38,22 @@ post '/visit' do
   @phone      = params[:phone]
   @date_time  = params[:date_time]
   @barber     = params[:barber]
+  @color      = params[:color]
+
+  hh = { user_name: 'Введите имя', phone: 'Введите телефон', date_time: 'Введите дату и время'}
+
+  hh.each do |key, val|
+    if params[key] == ''
+      @error = hh[key]
+      return erb :visit
+    end
+  end
 
   file = File.open('./Public/users.txt', 'a')
-  file.write "Имя пользователя: #{@user_name}, телефон: #{@phone}, время записи: #{@date_time}, ваш парикмахер - #{@barber};\n"
+  file.write "Имя пользователя: #{@user_name}, телефон: #{@phone}, время записи: #{@date_time}, ваш парикмахер - #{@barber},  цвет: #{@color};\n"
   file.close
 
-  erb :visit
+  erb "Имя пользователя: #{@user_name}, телефон: #{@phone}, время записи: #{@date_time}, ваш парикмахер - #{@barber},  цвет: #{@color};\n"
 end
 
 get '/contacts' do
