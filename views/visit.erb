@@ -32,9 +32,9 @@
   <div class="form-group">
     <label>Ваш парикмахер:</label>
     <select name="barber" class="form-control">
-      <option value="Jessie Pinkman">Jessie Pinkman</option>
-      <option value="Walter White">Walter White</option>
-      <option value="Gus Fring">Gus Fring</option>
+      <% @barbers.each do |barber| %>
+      <option value="<%= barber[1] %>"><%= barber[1] %></option>
+      <% end %>
     </select>
   </div>
   

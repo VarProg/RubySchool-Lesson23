@@ -7,6 +7,18 @@ def get_db
   return SQLite3::Database.new 'barbershop.db'
 end
 
+def is_barber_exist? name 
+  $db.execute('SELECT * FROM Barbers WHERE name=?', [name]).size > 0
+end
+
+def seed_db barbers
+  barbers.each do |barber|
+    if !is_barber_exist? barber
+      $db.execute 'INSERT INTO Barbers (name) VALUES (?)', [barber]
+    end
+  end
+end
+
 configure do
   $db = get_db
   $db.execute 'CREATE TABLE IF NOT EXISTS "Users" (
@@ -17,6 +29,14 @@ configure do
     "barber" char(128),
     "color" char(128)
   );'
+
+  $db.execute 'CREATE TABLE IF NOT EXISTS "Barbers" (
+    "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+    "name" char(128)
+  );'
+
+  seed_db ['Jessie Pinkman', 'Walter White', 'Gus Fring', 'Mike Soul']
+
   enable :sessions
 end
 
@@ -44,10 +64,12 @@ get '/about' do
 end
 
 get '/visit' do
+  @barbers = $db.execute 'SELECT * FROM Barbers'
   erb :visit
 end
 
 post '/visit' do
+  
   @user_name  = params[:user_name]
   @phone      = params[:phone]
   @date_time  = params[:date_time]
@@ -97,8 +119,9 @@ post '/contacts' do
 end
 
 get '/showusers' do
-  @users = $db.execute 'SELECT * FROM Users'
-
+  $db.results_as_hash = true
+  @list = $db.execute 'SELECT * FROM Users order by id desc'  
+  
   erb :showusers
 end
 

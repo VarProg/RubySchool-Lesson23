@@ -1,3 +1,22 @@
-<h2>Все пользователи</h2>
-
-<p><%= @users %></p>
+<table class="table">
+    <thead>
+        <th>№</th>
+        <th>Имя</th>
+        <th>Телефон</th>
+        <th>Дата и время</th>
+        <th>Парикмахер</th>
+        <th>Цвет</th>
+    </thead>
+    <tbody>
+        <% @list.each_with_index do |row, i| %>
+        <tr>
+            <td><%= i+1 %></td>
+            <td><%= row['user_name'] %></td>
+            <td><%= row['phone'] %></td>
+            <td><%= row['date_stamp'] %></td>
+            <td><%= row['barber'] %></td>
+            <td><%= row['color'] %></td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
