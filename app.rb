@@ -3,9 +3,13 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
 
+def get_db 
+  return SQLite3::Database.new 'barbershop.db'
+end
+
 configure do
-  @db = SQLite3::Database.new 'barbershop.db'
-  @db.execute 'CREATE TABLE IF NOT EXISTS "Users" (
+  $db = get_db
+  $db.execute 'CREATE TABLE IF NOT EXISTS "Users" (
     "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
     "user_name" char(128),
     "phone" char(128),
@@ -59,9 +63,19 @@ post '/visit' do
     end
   end
 
-  file = File.open('./Public/users.txt', 'a')
-  file.write "Имя пользователя: #{@user_name}, телефон: #{@phone}, время записи: #{@date_time}, ваш парикмахер - #{@barber},  цвет: #{@color};\n"
-  file.close
+  $db.execute 'INSERT INTO 
+    Users 
+    (
+        user_name,
+        phone,
+        date_stamp,
+        barber,
+        color
+    ) VALUES (?, ?, ?, ?, ?)', [@user_name, @phone, @date_time, @barber, @color]
+
+  # file = File.open('./Public/users.txt', 'a')
+  # file.write "Имя пользователя: #{@user_name}, телефон: #{@phone}, время записи: #{@date_time}, ваш парикмахер - #{@barber},  цвет: #{@color};\n"
+  # file.close
 
   erb "Имя пользователя: #{@user_name}, телефон: #{@phone}, время записи: #{@date_time}, ваш парикмахер - #{@barber},  цвет: #{@color};\n"
 end
@@ -80,6 +94,12 @@ post '/contacts' do
   file.close
 
   erb :contacts
+end
+
+get '/showusers' do
+  @users = $db.execute 'SELECT * FROM Users'
+
+  erb :showusers
 end
 
 get '/login/form' do
@@ -109,3 +129,4 @@ end
 get '/secure/place' do
   erb 'This is a secret place that only <%=session[:identity]%> has access to!'
 end
+
